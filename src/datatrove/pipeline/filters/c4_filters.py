@@ -12,15 +12,23 @@ from datatrove.utils.word_tokenizers import load_word_tokenizer
 
 
 CITATION_REGEX = re.compile(r"\[\d*]|\[edit]|\[citation needed]")
-END_PUNCTUATION = (".", "?", "!", '"', "'")
+# END_PUNCTUATION = (".", "?", "!", '"', "'")
+END_PUNCTUATION = ("。", "？", "！", '」', '』')
 ELLIPSIS = "..."
+# POLICY_SUBSTRINGS = [
+#     "terms of use",
+#     "privacy policy",
+#     "cookie policy",
+#     "uses cookies",
+#     "use of cookies",
+#     "use cookies",
+# ]
 POLICY_SUBSTRINGS = [
-    "terms of use",
-    "privacy policy",
-    "cookie policy",
-    "uses cookies",
-    "use of cookies",
-    "use cookies",
+    "利用規約",
+    "プライバシーポリシー",
+    "クッキーポリシー",
+    "クッキーの使用",
+    "クッキーを使用",
 ]
 
 
@@ -70,7 +78,7 @@ class C4QualityFilter(BaseFilter):
         filter_javascript: bool = True,
         filter_curly_bracket: bool = True,
         filter_policy: bool = True,
-        language: str = Languages.english,
+        language: str = Languages.japanese,
     ):
         super().__init__(exclusion_writer)
         self.split_paragraph = split_paragraph
@@ -93,7 +101,7 @@ class C4QualityFilter(BaseFilter):
 
         for line in lines:
             line = line.strip()
-            words = line.split()
+            words = self.tokenizer.word_tokenize(line)  # Sử dụng tokenizer để tách từ
             self.stat_update("line-total")
             # check line has too long word
             if self.max_word_length != -1 and any(len(word) > self.max_word_length for word in words):
