@@ -231,7 +231,7 @@ class C4BadWordsFilter(BaseFilter):
         keep_fraction: float = 0.0,
         fail_on_missing_language: bool = True,
         seed: int = None,
-        default_language: str = "en",
+        default_language: str = "ja",
         exclusion_writer: DiskWriter = None,
     ):
         super().__init__(exclusion_writer)
