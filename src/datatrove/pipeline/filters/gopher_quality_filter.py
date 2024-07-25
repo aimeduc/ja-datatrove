@@ -7,9 +7,7 @@ from datatrove.utils.text import PUNCTUATION_SET
 from datatrove.utils.typeshelper import Languages
 from datatrove.utils.word_tokenizers import load_word_tokenizer
 
-
-STOP_WORDS = ["the", "be", "to", "of", "and", "that", "have", "with"]
-
+STOP_WORDS = ["の", "が", "に", "を", "は", "と", "た", "が"]  # Stop words in Japanese
 
 class GopherQualityFilter(BaseFilter):
     name = "🥇 Gopher Quality"
@@ -27,7 +25,7 @@ class GopherQualityFilter(BaseFilter):
         min_stop_words: int | None = 2,
         stop_words: list[str] | None = None,
         exclusion_writer: DiskWriter = None,
-        language: str = Languages.english,
+        language: str = Languages.japanese,  # Đặt ngôn ngữ là tiếng Nhật
     ):
         """
         Filter to apply Gopher's quality heuristic rules.
@@ -64,7 +62,6 @@ class GopherQualityFilter(BaseFilter):
 
         Args:
             doc: Applies the heuristics rules to decide if a document should be REMOVED
-
 
         Returns: False if sample.text does not pass any of the the heuristic tests
 
