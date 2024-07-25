@@ -80,11 +80,11 @@ class GopherQualityFilter(BaseFilter):
             return False, "gopher_long_doc"
 
         # mean word length is outside the range of 3 to 10 characters
-        avg_n_words = np.mean([len(w) for w in non_symbol_words])
-        if self.min_avg_word_length and avg_n_words < self.min_avg_word_length:
-            return False, "gopher_below_avg_threshold"
-        if self.max_avg_word_length and avg_n_words > self.max_avg_word_length:
-            return False, "gopher_above_avg_threshold"
+        # avg_n_words = np.mean([len(w) for w in non_symbol_words])
+        # if self.min_avg_word_length and avg_n_words < self.min_avg_word_length:
+        #     return False, "gopher_below_avg_threshold"
+        # if self.max_avg_word_length and avg_n_words > self.max_avg_word_length:
+        #     return False, "gopher_above_avg_threshold"
 
         # symbol-to-word ratio greater than 0.1 for either the hash symbol or the ellipsis
         if self.max_symbol_word_ratio and text.count("#") / n_words > self.max_symbol_word_ratio:
