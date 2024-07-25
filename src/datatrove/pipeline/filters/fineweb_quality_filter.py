@@ -4,7 +4,6 @@ from datatrove.pipeline.writers.disk_base import DiskWriter
 from datatrove.utils.typeshelper import Languages
 from datatrove.utils.word_tokenizers import load_word_tokenizer
 
-
 class FineWebQualityFilter(BaseFilter):
     name = "🍷 FineWeb Quality"
 
@@ -17,7 +16,7 @@ class FineWebQualityFilter(BaseFilter):
         short_line_length: int = 30,
         char_duplicates_ratio: float = 0.01,
         new_line_ratio: float = 0.3,
-        language: str = Languages.english,
+        language: str = Languages.japanese,  # Sử dụng tiếng Nhật
     ):
         super().__init__(exclusion_writer)
         self.line_punct_thr = line_punct_thr
@@ -29,7 +28,7 @@ class FineWebQualityFilter(BaseFilter):
         self.tokenizer = load_word_tokenizer(language)
 
     def filter(self, doc) -> bool | tuple[bool, str]:
-        stop_chars = (".", "'", '"', "!", "?")
+        stop_chars = ("。", "？", "！")  # Cập nhật dấu câu kết thúc phù hợp với tiếng Nhật
 
         lines = doc.text.split("\n")
         ratio = sum(1 for line in lines if line.endswith(stop_chars)) / len(lines)
@@ -46,7 +45,7 @@ class FineWebQualityFilter(BaseFilter):
         if ratio >= self.char_duplicates_ratio:
             return False, "char_dup_ratio"
 
-        words = self.tokenizer.word_tokenize(doc.text)
+        words = self.tokenizer.word_tokenize(doc.text)  # Sử dụng tokenizer phù hợp để tách từ
         new_line = doc.text.count("\n")
         if new_line / len(words) > self.new_line_ratio:
             return False, "list_ratio"
