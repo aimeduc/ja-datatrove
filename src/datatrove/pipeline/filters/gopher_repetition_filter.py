@@ -7,7 +7,6 @@ from datatrove.pipeline.writers.disk_base import DiskWriter
 from datatrove.utils.typeshelper import Languages
 from datatrove.utils.word_tokenizers import load_word_tokenizer
 
-
 """
 Table A1 from https://arxiv.org/pdf/2112.11446.pdf
     duplicate line fraction                 0.30
@@ -29,7 +28,7 @@ Table A1 from https://arxiv.org/pdf/2112.11446.pdf
 
 
 def get_n_grams(words: list[str], n: int) -> list[str]:
-    return [" ".join(words[i : i + n]) for i in range(len(words) - n + 1)]
+    return ["".join(words[i : i + n]) for i in range(len(words) - n + 1)]
 
 
 def find_duplicates(x: list[str]) -> tuple[int, int]:
@@ -40,7 +39,6 @@ def find_duplicates(x: list[str]) -> tuple[int, int]:
         if element in unique_x:
             duplicate_chars += len(element)
             duplicate_elements += 1
-
         else:
             unique_x.add(element)
     return duplicate_elements, duplicate_chars
@@ -82,10 +80,9 @@ class GopherRepetitionFilter(BaseFilter):
         top_n_grams: tuple[tuple[int, float]] = ((2, 0.2), (3, 0.18), (4, 0.16)),
         dup_n_grams: tuple[tuple[int, float]] = ((5, 0.15), (6, 0.14), (7, 0.13), (8, 0.12), (9, 0.11), (10, 0.10)),
         exclusion_writer: DiskWriter = None,
-        language: str = Languages.english,
+        language: str = Languages.japanese,
     ):
         """
-
         Args:
             dup_line_frac:
             dup_para_frac:
