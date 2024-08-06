@@ -12,8 +12,8 @@ class LanguageFilter(BaseFilter):
 
     def __init__(
         self,
-        languages: list[str] | str | None = None,
-        language_threshold: float = 0.65,
+        languages: list[str] | str | None = None,  # [Sửa đổi]: mặc định là ["ja"]
+        language_threshold: float = 0.65,  # [Sửa đổi]: mặc định là 0.65
         exclusion_writer: DiskWriter = None,
         backend: Literal["ft176", "glotlid"] = "ft176",
         label_only: bool = False,
@@ -30,6 +30,10 @@ class LanguageFilter(BaseFilter):
             label_only: if True, only the language label is added to the metadata and no documents are removed
             keep_top_pairs_threshold: keep a list of all language pairs with at least this score. -1 to disable
         """
+        # [Sửa đổi]: Mặc định sử dụng tiếng Nhật
+        languages = ["ja"]
+        # [Sửa đổi]: Ngưỡng điểm số ngôn ngữ tối thiểu để chấp nhận tài liệu
+        language_threshold = 0.65
         super().__init__(exclusion_writer)
         self.language_threshold = language_threshold
         if isinstance(languages, str):
