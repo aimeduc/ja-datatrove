@@ -107,7 +107,9 @@ class URLFilter(BaseFilter):
         self.download_data()
         url = document.metadata.get("url")
 
-        assert url, "Document does not have url in its metadata"
+        if not url:
+            return True  # Trả về True nếu url rỗng
+
         url_info = self.tldextractor(url)
 
         if url_info.registered_domain in self.block_listed_domains:
